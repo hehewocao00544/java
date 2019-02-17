@@ -40,17 +40,22 @@ public class filewriter {
             System.out.println("姓名：" + list.get(i).getName() + " 年龄：" + list.get(i).getAge());
         }
         
+        
         FileWriter fw = new FileWriter("Students.txt");
+      
         
         for(int i = 0; i < list.size(); i++ ) {
         fw.write("姓名：");
         fw.write(list.get(i).getName());
         fw.write(" 年龄：");
-        fw.write(list.get(i).getAge());
+        Integer num = list.get(i).getAge();
+        String str = num.toString();
+        fw.write(str);
         fw.write("\n");
         }       
         
         fw.close();
+        
     }
 }
 
