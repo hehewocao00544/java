@@ -42,6 +42,7 @@ public class BufferedFileWriterAndBufferedFileReader {
         while((str = br.readLine()) != null){
             System.out.println(str);
         }
+        br.close();
     }
 
 }
