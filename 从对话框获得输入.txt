@@ -1,0 +1,12 @@
+１．JOptionPane类使用：
+  1).导包：import javax.swing.JOptionPane;
+  2).创建：JOptionPane pane = new JOptionPane();
+  3).使用：
+        String str = pane.showInputDialog(null,"Enter an input","Input Dialog　Demo",JOptionPane.QUESTION_MESSAGE);
+        第一个参数可以总是为空，第二个参数用于提示用户的字符串，第三个参数为输入框的标题，
+        第四个参数可以是JOptionPane.QUESTION_MESSAGE，他在输入框中显示问号。
+        该函数返回一个String类型的数据。
+２．将字符串转化为数字：
+  String str = "123";
+　int num = Integer.parseInt(str);
+  System..out.println(num);
