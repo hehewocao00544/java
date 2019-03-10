@@ -5,7 +5,7 @@ public class Cylinder extends CircleParentClass {
     double cylinderArea;
     
     public Cylinder() {
-        super();
+        super();//super关键字调用父类垢找方法
     }
     
     public void setLength(double length) {
