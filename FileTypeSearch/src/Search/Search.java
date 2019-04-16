@@ -38,7 +38,8 @@ public class Search {
 		File file1 = new File(path);
 		// 获取该目录下的所有文件对象
 		File[] file = file1.listFiles();
-
+		
+		try {
 		for (int i = 0; i < file.length; i++) {
 
 			// 如果不是，就进行判断
@@ -53,6 +54,9 @@ public class Search {
 				String path2 = path + '\\' + file[i].getName();
 				searchFile(path2);
 			}
+		}
+		}catch(Exception e){
+			System.out.println("不能查询存在特殊文件的路径！此处存在特殊类型的文件！");
 		}
 	}
 }
