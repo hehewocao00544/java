@@ -1,3 +1,5 @@
-admin=admin
-user=user
-lirui=121380
+user=user=15691729703
+lirui=121380=110
+hehewocao=121380=15691729703
+hehewoca=1438438=14587532554
+hohowocao=7891653=1354684799

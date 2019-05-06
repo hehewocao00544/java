@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import cn.hehewocao.pojo.User;
 import cn.hehewocao.tool.AdminTools;
-import cn.hehewocao.tool.StudentTools;
+import cn.hehewocao.tool.UserTools;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,7 +31,7 @@ public class WindowLogin extends JFrame {
 
 	public WindowLogin() {
 		setTitle("登录图书信息管理系统");
-
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -74,11 +74,11 @@ public class WindowLogin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				String username = usernameField.getText().toString();
-				String password = passwordField.getText().toString();
+				String username = usernameField.getText().toString().trim();
+				String password = passwordField.getText().toString().trim();
 
 				if (username.equals("admin")
-						&& password.equals(AdminTools.fileReader("admin.txt").get(0).getPassword())) {
+						&& password.equals(AdminTools.fileReader("admin.txt").getPassword())) {
 
 					JOptionPane.showMessageDialog(null, "亲爱的管理员,欢迎使用图书管理系统！");
 					dispose();
@@ -87,9 +87,25 @@ public class WindowLogin extends JFrame {
 					 * 这里调用管理员界面
 					 * 
 					 */
+					/**
+					 * Launch the application.
+					 */
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									WindowAdministrator frame = new WindowAdministrator();
+									frame.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
+					/**
+					 * Create the frame.
+					 */
 				} else {
 
-					ArrayList<User> array = StudentTools.fileReader("Users.txt");
+					ArrayList<User> array = UserTools.fileReader("Users.txt");
 					int flag = 0;
 					for (User user : array) {
 
