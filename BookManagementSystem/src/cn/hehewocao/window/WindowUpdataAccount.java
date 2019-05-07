@@ -27,33 +27,14 @@ public class WindowUpdataAccount extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField usernametextField;
-	private JTextField passwordField;
-	private JTextField passwordField_1;
 	private JTextField phonetextField;
 	private JTextField infotextField;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WindowUpdataAccount frame = new WindowUpdataAccount();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public WindowUpdataAccount() {
 
-		setTitle("ÓÃ»§ĞÅÏ¢ĞŞ¸Ä");
+		setTitle("ç”¨æˆ·ä¿¡æ¯ä¿®æ”¹");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -64,22 +45,22 @@ public class WindowUpdataAccount extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel infotiplabel = new JLabel("");
 		infotiplabel.setBounds(616, 167, 153, 18);
 		contentPane.add(infotiplabel);
-		
+
 		JComboBox itemcomboBox = new JComboBox();
 		itemcomboBox.setBounds(431, 101, 84, 24);
 		contentPane.add(itemcomboBox);
-		itemcomboBox.addItem("ÓÃ»§Ãû");
-		itemcomboBox.addItem("ÊÖ»úºÅ");
+		itemcomboBox.addItem("ç”¨æˆ·å");
+		itemcomboBox.addItem("æ‰‹æœºå·");
 
 		JLabel usernameLabel = new JLabel("\u7528\u6237\u540D\uFF1A");
 		usernameLabel.setBounds(267, 235, 72, 18);
 		contentPane.add(usernameLabel);
 
-		JLabel passwordLabel = new JLabel("\u5BC6\u7801\uFF1A");
+		JLabel passwordLabel = new JLabel("æ–°å¯†ç ï¼š");
 		passwordLabel.setBounds(267, 302, 72, 18);
 		contentPane.add(passwordLabel);
 
@@ -105,16 +86,6 @@ public class WindowUpdataAccount extends JFrame {
 		contentPane.add(usernametextField);
 		usernametextField.setColumns(10);
 
-		passwordField = new JTextField();
-		passwordField.setBounds(388, 299, 198, 24);
-		contentPane.add(passwordField);
-		passwordField.setColumns(10);
-
-		passwordField_1 = new JTextField();
-		passwordField_1.setBounds(388, 365, 198, 24);
-		contentPane.add(passwordField_1);
-		passwordField_1.setColumns(10);
-
 		phonetextField = new JTextField();
 		phonetextField.setBounds(388, 435, 198, 24);
 		contentPane.add(phonetextField);
@@ -127,108 +98,141 @@ public class WindowUpdataAccount extends JFrame {
 		JButton resetbutton = new JButton("\u91CD\u7F6E");
 		resetbutton.setBounds(431, 537, 113, 27);
 		contentPane.add(resetbutton);
-		
-		JLabel label_1 = new JLabel("------------------------------\u7528\u6237\u4FE1\u606F\u4FEE\u6539------------------------------");
+
+		JLabel label_1 = new JLabel(
+				"------------------------------\u7528\u6237\u4FE1\u606F\u4FEE\u6539------------------------------");
 		label_1.setBounds(287, 27, 593, 18);
 		contentPane.add(label_1);
-		
+
 		JLabel label_2 = new JLabel("\u4FEE\u6539\u9879\uFF1A");
 		label_2.setBounds(267, 104, 72, 18);
 		contentPane.add(label_2);
-		
+
 		JLabel label_3 = new JLabel("\u4FEE\u6539\u4FE1\u606F\uFF1A");
 		label_3.setBounds(267, 164, 90, 18);
 		contentPane.add(label_3);
-		
+
 		infotextField = new JTextField();
 		infotextField.addKeyListener(new KeyAdapter() {
 			@Override
-			//ĞÅÏ¢ÎÄ±¾¿ò¶¯×÷
-			public void keyPressed(KeyEvent arg0) {
-				
+			// ä¿¡æ¯æ–‡æœ¬æ¡†åŠ¨ä½œ
+			public void keyReleased(KeyEvent arg0) {
+
 				infotiplabel.setText("");
-				
+
 				String info = infotextField.getText().trim();
-				
-				if(itemcomboBox.getSelectedItem().toString().equals("ÓÃ»§Ãû")) {
-					//Î´ÕÒµ½´ËÓÃ»§
-					if(UserTools.checkUsername(info)==null) {
-						infotiplabel.setText("¸ÃÓÃ»§²»´æÔÚ£¡");
-					}else {
-						infotiplabel.setText("");
+
+				if (itemcomboBox.getSelectedItem().toString().equals("ç”¨æˆ·å")) {
+					// æœªæ‰¾åˆ°æ­¤ç”¨æˆ·
+					if (UserTools.checkUsername(info) == null) {
+						infotiplabel.setText("è¯¥ç”¨æˆ·ä¸å­˜åœ¨ï¼");
+					} else {
+						infotiplabel.setText("âœ”");
+
+						usernametextField.setText(UserTools.checkUsername(info).getUsername());
+						phonetextField.setText(UserTools.checkUsername(info).getPhone());
 					}
-					
-				}else if(itemcomboBox.getSelectedItem().toString().equals("ÊÖ»úºÅ")) {
-					
+
+				} else if (itemcomboBox.getSelectedItem().toString().equals("æ‰‹æœºå·")) {
+
+					if (UserTools.checkPhone(info) == null) {
+						infotiplabel.setText("è¯¥ç”¨æˆ·ä¸å­˜åœ¨ï¼");
+					} else {
+						infotiplabel.setText("âœ”");
+
+						usernametextField.setText(UserTools.checkPhone(info).getUsername());
+						phonetextField.setText(UserTools.checkPhone(info).getPhone());
+
+					}
 				}
 			}
 		});
 		infotextField.setBounds(388, 164, 198, 24);
 		contentPane.add(infotextField);
 		infotextField.setColumns(10);
-		
-		
+
+		passwordField = new JPasswordField();
+		passwordField.setBounds(388, 299, 198, 24);
+		contentPane.add(passwordField);
+
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(388, 365, 198, 24);
+		contentPane.add(passwordField_1);
 
 		itemcomboBox.addActionListener(new ActionListener() {
-			//ÏÂÀ­±êÇ©¶¯×÷
+			// ä¸‹æ‹‰æ ‡ç­¾åŠ¨ä½œ
 			public void actionPerformed(ActionEvent e) {
 				usernametextField.setText("");
 				passwordField.setText("");
 				passwordField_1.setText("");
 				phonetextField.setText("");
 				infotextField.setText("");
+				infotiplabel.setText("");
 			}
 		});
 
-		// È·ÈÏĞŞ¸Ä¶¯×÷
+		// ç¡®è®¤ä¿®æ”¹åŠ¨ä½œ
 		yesButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String n = usernametextField.getText().toString().trim();
-				String p = passwordField.getText().toString().trim();
-				String p2 = passwordField_1.getText().toString().trim();
-				String t = phonetextField.getText().toString().trim();
-				User user = new User(n, p, t);
+				if (infotiplabel.getText().equals("âœ”")) {
+					String n = usernametextField.getText().toString().trim();
+					String p = passwordField.getText().toString().trim();
+					String p2 = passwordField_1.getText().toString().trim();
+					String t = phonetextField.getText().toString().trim();
+					User user = new User(n, p, t);
 
-				if (n.length() == 0) {
-					
-					JOptionPane.showMessageDialog(contentPane, "ÓÃ»§Ãû²»ÄÜÎª¿Õ£¡");
+					if (n.length() == 0) {
 
-				} else if (n.equals("admin")) {
-					JOptionPane.showMessageDialog(contentPane, "¸ÃÓÃ»§ÃûÒÑ´æÔÚ£¡");
-				} else if (p.length() == 0 || p2.length() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "ç”¨æˆ·åä¸èƒ½ä¸ºç©ºï¼");
 
-					JOptionPane.showMessageDialog(contentPane, "ÃÜÂë²»ÄÜÎª¿Õ£¡");
-				} else if (t.length() == 0) {
+					} else if (n.equals("admin")) {
+						JOptionPane.showMessageDialog(contentPane, "è¯¥ç”¨æˆ·åå·²å­˜åœ¨ï¼");
+					} else if (p.length() == 0 || p2.length() == 0) {
 
-					JOptionPane.showMessageDialog(contentPane, "ÊÖ»úºÅ²»ÄÜÎª¿Õ£¡");
-				} else if (!p.equals(p2)) {
-					JOptionPane.showMessageDialog(contentPane, "ÄúÊäÈëµÄÁ½´ÎÃÜÂë²»Ò»ÖÂ£¡");
+						JOptionPane.showMessageDialog(contentPane, "å¯†ç ä¸èƒ½ä¸ºç©ºï¼");
+					} else if (t.length() == 0) {
+
+						JOptionPane.showMessageDialog(contentPane, "æ‰‹æœºå·ä¸èƒ½ä¸ºç©ºï¼");
+					} else if (!p.equals(p2)) {
+
+						JOptionPane.showMessageDialog(contentPane, "æ‚¨è¾“å…¥çš„ä¸¤æ¬¡å¯†ç ä¸ä¸€è‡´ï¼");
+						passwordField.setText("");
+						passwordField_1.setText("");
+					} else {
+
+						if (itemcomboBox.getSelectedItem().toString().equals("ç”¨æˆ·å")) {
+
+							User u = UserTools.checkUsername(infotextField.getText().trim());
+							UserTools.delAccount(u);
+							UserTools.fileWrite("Users.txt", new User(n, p, t));
+							JOptionPane.showMessageDialog(contentPane, "æ­å–œæ‚¨ï¼Œç”¨æˆ·ä¿®æ”¹æˆåŠŸï¼");
+							dispose();
+						} else if (itemcomboBox.getSelectedItem().toString().equals("æ‰‹æœºå·")) {
+
+							User u = UserTools.checkPhone(infotextField.getText().trim());
+							UserTools.delAccount(u);
+							UserTools.fileWrite("Users.txt", new User(n, p, t));
+							JOptionPane.showMessageDialog(contentPane, "æ­å–œæ‚¨ï¼Œç”¨æˆ·ä¿®æ”¹æˆåŠŸï¼");
+							dispose();
+						}
+
+					}
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "è¯¥ç”¨æˆ·ä¸å­˜åœ¨ï¼Œæ— æ³•è¿›è¡Œä¿®æ”¹ï¼");
+					usernametextField.setText("");
 					passwordField.setText("");
 					passwordField_1.setText("");
-				} else {
-					
-					
-					
-					
+					phonetextField.setText("");
+					infotextField.setText("");
+					infotiplabel.setText("");
 				}
-				
-				
-				
-				
-				
-				/*else if (UserTools.updataAccount(user)) {
-					JOptionPane.showMessageDialog(contentPane, "¹§Ï²Äú£¬ÓÃ»§ĞŞ¸Ä³É¹¦£¡");
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(contentPane, "¶Ô²»Æğ£¬ÓÃ»§ĞŞ¸ÄÊ§°Ü£¡");
-				}*/
 			}
 		});
 
-		// È¡ÏûĞŞ¸Ä¶¯×÷
+		// å–æ¶ˆä¿®æ”¹åŠ¨ä½œ
 		cenclebutton.addActionListener(new ActionListener() {
 
 			@Override
@@ -237,18 +241,18 @@ public class WindowUpdataAccount extends JFrame {
 				dispose();
 			}
 		});
-		
-		//ÖØÖÃ°´Å¥¶¯×÷
+
+		// é‡ç½®æŒ‰é’®åŠ¨ä½œ
 		resetbutton.addActionListener(new ActionListener() {
-			
-			
+
 			public void actionPerformed(ActionEvent e) {
-				
+
 				usernametextField.setText("");
 				passwordField.setText("");
 				passwordField_1.setText("");
 				phonetextField.setText("");
 				infotextField.setText("");
+				infotiplabel.setText("");
 			}
 		});
 	}

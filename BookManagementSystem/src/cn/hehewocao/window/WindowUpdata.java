@@ -86,6 +86,8 @@ public class WindowUpdata extends JFrame {
 		infortextField.setBounds(265, 158, 131, 24);
 		contentPane.add(infortextField);
 		infortextField.setColumns(10);
+		Font x = new Font("Serif",1,18);
+		infortextArea.setFont(x);
 
 		JLabel inforlabel = new JLabel("\u67E5\u8BE2\u4FE1\u606F\uFF1A");
 		inforlabel.setBounds(174, 161, 77, 18);
@@ -131,6 +133,18 @@ public class WindowUpdata extends JFrame {
 		JButton updatabutton = new JButton("\u4FEE\u6539\u4FE1\u606F");
 		updatabutton.setBounds(467, 472, 113, 27);
 		contentPane.add(updatabutton);
+		
+		JLabel label = new JLabel("\u8D26\u53F7\u540D");
+		label.setBounds(174, 214, 72, 18);
+		contentPane.add(label);
+		
+		JLabel label_1 = new JLabel("\u5BC6\u7801");
+		label_1.setBounds(356, 214, 72, 18);
+		contentPane.add(label_1);
+		
+		JLabel lblNewLabel = new JLabel("\u624B\u673A\u53F7");
+		lblNewLabel.setBounds(508, 214, 72, 18);
+		contentPane.add(lblNewLabel);
 
 		checkbutton.addActionListener(new ActionListener() {
 
@@ -138,7 +152,7 @@ public class WindowUpdata extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				infortextArea.setText("");
-				
+
 				String info = infortextField.getText().toString().trim();
 
 				if (comboBoxmode.getSelectedItem().toString().equals("精确")) {
@@ -178,8 +192,9 @@ public class WindowUpdata extends JFrame {
 
 							for (User user : array) {
 
-								infortextArea.append(
+								infortextArea.append("                    "+
 										user.getUsername() + "\t" + user.getPassword() + "\t" + user.getPhone() + '\n');
+								
 							}
 
 						} else {
@@ -214,18 +229,17 @@ public class WindowUpdata extends JFrame {
 					/**
 					 * Launch the application.
 					 */
-					
-						EventQueue.invokeLater(new Runnable() {
-							public void run() {
-								try {
-									WindowDelAccount frame = new WindowDelAccount();
-									frame.setVisible(true);
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
+
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								WindowDelAccount frame = new WindowDelAccount();
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-						});
-					
+						}
+					});
 
 					/**
 					 * Create the frame.
@@ -249,6 +263,22 @@ public class WindowUpdata extends JFrame {
 					 * 
 					 * 这里调用修改用户信息窗口
 					 * 
+					 */
+					/**
+					 * Launch the application.
+					 */
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								WindowUpdataAccount frame = new WindowUpdataAccount();
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+					/**
+					 * Create the frame.
 					 */
 
 				}

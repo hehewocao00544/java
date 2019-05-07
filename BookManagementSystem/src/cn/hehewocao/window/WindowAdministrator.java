@@ -82,7 +82,17 @@ public class WindowAdministrator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				//调用账号管理窗口
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowAccount frame = new WindowAccount();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
 
