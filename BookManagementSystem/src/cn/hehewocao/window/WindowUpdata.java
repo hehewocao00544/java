@@ -76,6 +76,7 @@ public class WindowUpdata extends JFrame {
 
 		JTextArea infortextArea = new JTextArea();
 		scrollPane.setViewportView(infortextArea);
+		infortextArea.setEditable(false);
 
 		JLabel itemLabel = new JLabel("\u67E5\u8BE2\u9009\u9879\uFF1A");
 		itemLabel.setBounds(412, 98, 77, 18);
@@ -122,11 +123,11 @@ public class WindowUpdata extends JFrame {
 		comboBoxmode.addItem("精确");
 		comboBoxmode.addItem("模糊");
 		contentPane.add(comboBoxmode);
-		
+
 		JButton delbutton = new JButton("\u5220\u9664\u7528\u6237");
 		delbutton.setBounds(245, 472, 113, 27);
 		contentPane.add(delbutton);
-		
+
 		JButton updatabutton = new JButton("\u4FEE\u6539\u4FE1\u606F");
 		updatabutton.setBounds(467, 472, 113, 27);
 		contentPane.add(updatabutton);
@@ -136,6 +137,8 @@ public class WindowUpdata extends JFrame {
 			// 查询按钮动作
 			public void actionPerformed(ActionEvent e) {
 
+				infortextArea.setText("");
+				
 				String info = infortextField.getText().toString().trim();
 
 				if (comboBoxmode.getSelectedItem().toString().equals("精确")) {
@@ -191,24 +194,64 @@ public class WindowUpdata extends JFrame {
 
 			}
 		});
-		
-		//删除用户按钮动作
+
+		// 删除用户按钮动作
 		delbutton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
+				if (infortextArea.getText().toString().trim().length() == 0) {
+
+					JOptionPane.showMessageDialog(contentPane, "删除前请先进行查询哟，亲~~");
+				} else {
+
+					/*
+					 * 
+					 * 这里调用删除窗口
+					 * 
+					 */
+					/**
+					 * Launch the application.
+					 */
+					
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									WindowDelAccount frame = new WindowDelAccount();
+									frame.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
+					
+
+					/**
+					 * Create the frame.
+					 */
+				}
 			}
 		});
-		
-		//修改用户信息按钮动作
+
+		// 修改用户信息按钮动作
 		updatabutton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
+				if (infortextArea.getText().toString().trim().length() == 0) {
+
+					JOptionPane.showMessageDialog(contentPane, "修改信息前请先进行查询哟，亲~~");
+				} else {
+
+					/*
+					 * 
+					 * 这里调用修改用户信息窗口
+					 * 
+					 */
+
+				}
 			}
 		});
 	}

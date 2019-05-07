@@ -63,28 +63,28 @@ public class WindowRegister extends JFrame {
 		cencleButton = new JButton("\u53D6\u6D88\u6CE8\u518C");
 		cencleButton.setBounds(123, 345, 113, 27);
 		contentPane.add(cencleButton);
-		
+
 		JLabel phoneLabel = new JLabel("\u624B\u673A\u53F7\uFF1A");
 		phoneLabel.setBounds(138, 255, 72, 18);
 		contentPane.add(phoneLabel);
-		
+
 		phonetextField = new JTextField();
 		phonetextField.setBounds(275, 252, 204, 24);
 		contentPane.add(phonetextField);
 		phonetextField.setColumns(10);
-		
+
 		JLabel label = new JLabel("");
 		label.setBounds(151, 164, 72, 18);
 		contentPane.add(label);
-		
+
 		JLabel label_2Label = new JLabel("\u518D\u6B21\u8F93\u5165\u5BC6\u7801\uFF1A");
 		label_2Label.setBounds(123, 196, 113, 18);
 		contentPane.add(label_2Label);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(275, 130, 204, 24);
 		contentPane.add(passwordField);
-		
+
 		passwordField_1 = new JPasswordField();
 		passwordField_1.setBounds(275, 193, 204, 24);
 		contentPane.add(passwordField_1);
@@ -98,28 +98,31 @@ public class WindowRegister extends JFrame {
 				String p = passwordField.getText().toString().trim();
 				String p2 = passwordField_1.getText().toString().trim();
 				String t = phonetextField.getText().toString().trim();
-				User user = new User(n, p,t);
+				User user = new User(n, p, t);
 
-				if(n.length() == 0) {
-					
-					JOptionPane.showMessageDialog(null, "用户名不能为空！");
-					
-				}else if(p.length() == 0 || p2.length() == 0) {
-					
-					JOptionPane.showMessageDialog(null, "密码不能为空！");
-				}else if(t.length() == 0) {
-					
-					JOptionPane.showMessageDialog(null, "手机号不能为空！");
-				}
-				
-				else if ( p.equals(p2) && UserTools.fileWrite("Users.txt", user)) {
-					JOptionPane.showMessageDialog(null, "恭喜您，用户注册成功！");
-					dispose();
-				}
-				else if(!p.equals(p2) || !UserTools.fileWrite("Users.txt", user)){
-					JOptionPane.showMessageDialog(null, "您输入的两次密码不一致！");
+				if (n.length() == 0) {
+
+					JOptionPane.showMessageDialog(contentPane, "用户名不能为空！");
+
+				} else if (n.equals("admin")) {
+					JOptionPane.showMessageDialog(contentPane, "该用户名已存在！");
+				} else if (p.length() == 0 || p2.length() == 0) {
+
+					JOptionPane.showMessageDialog(contentPane, "密码不能为空！");
+				} else if (t.length() == 0) {
+
+					JOptionPane.showMessageDialog(contentPane, "手机号不能为空！");
+				} else if (UserTools.duplicateCheckingUsername(user)) {
+					JOptionPane.showMessageDialog(contentPane, "该用户名已存在！");
+				} else if (UserTools.duplicateCheckingPhone(user)) {
+					JOptionPane.showMessageDialog(contentPane, "该手机号已被其他用户绑定！");
+				} else if (!p.equals(p2)) {
+					JOptionPane.showMessageDialog(contentPane, "您输入的两次密码不一致！");
 					passwordField.setText("");
 					passwordField_1.setText("");
+				} else if (UserTools.fileWrite("Users.txt", user)) {
+					JOptionPane.showMessageDialog(contentPane, "恭喜您，用户注册成功！");
+					dispose();
 				}
 			}
 		});
