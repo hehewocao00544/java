@@ -2,31 +2,35 @@ package cn.hehewocao.pojo;
 
 public class Book {
 
+	private String id;
 	private String bookname;
 	private String writer;
-	private String id;
+	private String type;
 	private String press;
 	private String date;
 	private float price;
-	private String type;
 	private int number;
 
 	public Book() {
 
 	}
 
-	public Book(String bookname, String writer, String id, String press, String date, float price, String type,
-			int number) {
+	
 
+	public Book(String id, String bookname, String writer, String type, String press, String date, float price,
+			int number) {
+		super();
+		this.id = id;
 		this.bookname = bookname;
 		this.writer = writer;
-		this.id = id;
+		this.type = type;
 		this.press = press;
 		this.date = date;
 		this.price = price;
-		this.type = type;
 		this.number = number;
 	}
+
+
 
 	public String getBookname() {
 		return bookname;

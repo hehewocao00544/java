@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class WindowLogin extends JFrame {
 
@@ -29,6 +30,21 @@ public class WindowLogin extends JFrame {
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 
+	/*public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WindowLogin frame = new WindowLogin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}*/
+	
+	
+	
 	public WindowLogin() {
 		setTitle("登录图书信息管理系统");
 		setResizable(false);
@@ -68,6 +84,11 @@ public class WindowLogin extends JFrame {
 		JButton register = new JButton("\u9A6C\u4E0A\u6CE8\u518C");
 		register.setBounds(93, 187, 113, 27);
 		contentPane.add(register);
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon("bg_8.jpg"));
+		label.setBounds(0, 0, 444, 265);
+		contentPane.add(label);
 
 		// 登录按钮动作
 		login.addActionListener(new ActionListener() {

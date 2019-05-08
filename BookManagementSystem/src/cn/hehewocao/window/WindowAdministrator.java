@@ -29,6 +29,23 @@ import java.awt.ComponentOrientation;
 public class WindowAdministrator extends JFrame {
 
 	private JPanel contentPane;
+	
+	public static void main(String[] args) {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WindowAdministrator frame = new WindowAdministrator();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	
+	
 	public WindowAdministrator() {
 		setResizable(false);
 		setTitle("图书信息管理系统");
@@ -52,26 +69,22 @@ public class WindowAdministrator extends JFrame {
 		contentPane.setLayout(null);
 
 		JButton accountButton = new JButton("\u8D26\u53F7\u7BA1\u7406");
-		accountButton.setBounds(530, 216, 180, 50);
+		accountButton.setBounds(530, 224, 180, 50);
 		contentPane.add(accountButton);
 
 		JButton bookButton = new JButton("\u56FE\u4E66\u4FE1\u606F\u7BA1\u7406");
-		bookButton.setBounds(530, 328, 180, 50);
+		bookButton.setBounds(530, 337, 180, 50);
 		contentPane.add(bookButton);
 
-		JButton readerButton = new JButton("\u8BFB\u8005\u4FE1\u606F\u7BA1\u7406");
-		readerButton.setBounds(530, 432, 180, 50);
-		contentPane.add(readerButton);
-
 		JButton borrowingButton = new JButton("\u56FE\u4E66\u501F\u9605\u7BA1\u7406");
-		borrowingButton.setBounds(530, 542, 180, 50);
+		borrowingButton.setBounds(530, 452, 180, 50);
 		contentPane.add(borrowingButton);
 
 		JButton baseButton = new JButton("\u57FA\u7840\u4FE1\u606F\u7EF4\u62A4");
-		baseButton.setBounds(530, 646, 180, 50);
+		baseButton.setBounds(530, 564, 180, 50);
 		contentPane.add(baseButton);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("background.jpg"));
 		lblNewLabel.setBounds(0, 0, 1244, 765);
 		contentPane.add(lblNewLabel);
@@ -102,16 +115,6 @@ public class WindowAdministrator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-			}
-		});
-
-		// 读者管理按钮
-		readerButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				
 			}
 		});
 
