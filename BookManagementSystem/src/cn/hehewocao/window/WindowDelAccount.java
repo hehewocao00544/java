@@ -16,15 +16,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class WindowDelAccount extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField infotextField;
 	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WindowDelAccount frame = new WindowDelAccount();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	public WindowDelAccount() {
 		
-		setTitle("É¾³ıÓÃ»§ĞÅÏ¢");
+		setTitle("åˆ é™¤ç”¨æˆ·ä¿¡æ¯");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -69,12 +84,47 @@ public class WindowDelAccount extends JFrame {
 				infotextField.setText("");
 			}
 		});
-		modecomboBox.addItem("ÓÃ»§Ãû");
-		modecomboBox.addItem("ÊÖ»úºÅ");
+		modecomboBox.addItem("ç”¨æˆ·å");
+		modecomboBox.addItem("æ‰‹æœºå·");
 		modecomboBox.setBounds(185, 97, 84, 24);
 		contentPane.add(modecomboBox);
 		
-		//È¡Ïû°´Å¥¶¯×÷
+		JLabel infotipslabel = new JLabel("");
+		infotipslabel.setBounds(324, 164, 106, 18);
+		contentPane.add(infotipslabel);
+		
+		//ä¿¡æ¯æ¡†é”®ç›˜ç›‘å¬
+		infotextField.addKeyListener(new KeyAdapter() {
+			
+			public void keyReleased(KeyEvent arg0) {
+				
+				String info = infotextField.getText().trim();
+				
+				infotipslabel.setText("");
+				
+				if(modecomboBox.getSelectedItem().toString().equals("ç”¨æˆ·å")) {
+					
+					if(UserTools.checkUsername(info) != null) {
+						infotipslabel.setText("âœ”");
+					}else {
+						infotipslabel.setText("è¯¥ç”¨æˆ·ä¸å­˜åœ¨ï¼");
+					}
+					
+				}else {
+					
+					if(UserTools.checkPhone(info) != null) {
+						infotipslabel.setText("âœ”");
+					}else {
+						infotipslabel.setText("è¯¥ç”¨æˆ·ä¸å­˜åœ¨ï¼");
+					}
+					
+				}
+				
+				
+			}
+		});
+		
+		//å–æ¶ˆæŒ‰é’®åŠ¨ä½œ
 		cenclebutton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -84,7 +134,7 @@ public class WindowDelAccount extends JFrame {
 			}
 		});
 		
-		//É¾³ı°´Å¥¶¯×÷
+		//åˆ é™¤æŒ‰é’®åŠ¨ä½œ
 		okbutton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -92,28 +142,27 @@ public class WindowDelAccount extends JFrame {
 				
 				String info = infotextField.getText().trim();
 				
-				if(modecomboBox.getSelectedItem().toString().equals("ÓÃ»§Ãû")) {
+				if(modecomboBox.getSelectedItem().toString().equals("ç”¨æˆ·å")) {
 					
 					if(UserTools.delAccountUsername(info)) {
 						
-						JOptionPane.showMessageDialog(contentPane, "¹§Ï²£¬ÓÃ»§É¾³ı³É¹¦£¡");
+						JOptionPane.showMessageDialog(contentPane, "æ­å–œï¼Œç”¨æˆ·åˆ é™¤æˆåŠŸï¼");
 						dispose();
 					}else {
-						JOptionPane.showMessageDialog(contentPane, "¶Ô²»Æğ£¬ÓÃ»§É¾³ıÊ§°Ü£¡Çë¼ì²éÊäÈëµÄĞÅÏ¢ÊÇ·ñÓĞÎó£¡");
+						JOptionPane.showMessageDialog(contentPane, "å¯¹ä¸èµ·ï¼Œç”¨æˆ·åˆ é™¤å¤±è´¥ï¼è¯·æ£€æŸ¥è¾“å…¥çš„ä¿¡æ¯æ˜¯å¦æœ‰è¯¯ï¼");
 					}
-				}else if(modecomboBox.getSelectedItem().toString().equals("ÊÖ»úºÅ")) {
+				}else if(modecomboBox.getSelectedItem().toString().equals("æ‰‹æœºå·")) {
 					
 					if(UserTools.delAccountPhone(info)) {
 						
-						JOptionPane.showMessageDialog(contentPane, "¹§Ï²£¬ÓÃ»§É¾³ı³É¹¦£¡");
+						JOptionPane.showMessageDialog(contentPane, "æ­å–œï¼Œç”¨æˆ·åˆ é™¤æˆåŠŸï¼");
 						dispose();
 						
 					}else {
-						JOptionPane.showMessageDialog(contentPane, "¶Ô²»Æğ£¬ÓÃ»§É¾³ıÊ§°Ü£¡Çë¼ì²éÊäÈëµÄĞÅÏ¢ÊÇ·ñÓĞÎó£¡");
+						JOptionPane.showMessageDialog(contentPane, "å¯¹ä¸èµ·ï¼Œç”¨æˆ·åˆ é™¤å¤±è´¥ï¼è¯·æ£€æŸ¥è¾“å…¥çš„ä¿¡æ¯æ˜¯å¦æœ‰è¯¯ï¼");
 					}
 				}
 			}
 		});
 	}
-
 }

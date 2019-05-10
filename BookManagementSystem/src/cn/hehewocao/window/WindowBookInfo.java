@@ -84,8 +84,17 @@ public class WindowBookInfo extends JFrame {
 			
 			
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				//调用查询或修改图书信息窗口
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowsUpdataBook frame = new WindowsUpdataBook();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
 	}

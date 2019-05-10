@@ -26,12 +26,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class WindowUpdata extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField infortextField;
+	private JTable table;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -71,12 +75,8 @@ public class WindowUpdata extends JFrame {
 		contentPane.add(modelabel);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(70, 235, 643, 178);
+		scrollPane.setBounds(132, 235, 539, 178);
 		contentPane.add(scrollPane);
-
-		JTextArea infortextArea = new JTextArea();
-		scrollPane.setViewportView(infortextArea);
-		infortextArea.setEditable(false);
 
 		JLabel itemLabel = new JLabel("\u67E5\u8BE2\u9009\u9879\uFF1A");
 		itemLabel.setBounds(412, 98, 77, 18);
@@ -86,8 +86,7 @@ public class WindowUpdata extends JFrame {
 		infortextField.setBounds(265, 158, 131, 24);
 		contentPane.add(infortextField);
 		infortextField.setColumns(10);
-		Font x = new Font("Serif",1,18);
-		infortextArea.setFont(x);
+		Font x = new Font("Serif", 1, 18);
 
 		JLabel inforlabel = new JLabel("\u67E5\u8BE2\u4FE1\u606F\uFF1A");
 		inforlabel.setBounds(174, 161, 77, 18);
@@ -101,7 +100,7 @@ public class WindowUpdata extends JFrame {
 		// 查询选项下拉菜单动作：清除文本域内容
 		comboBoxItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				infortextArea.setText("");
+
 				infortextField.setText("");
 				infortextField.isFocusable();
 
@@ -116,7 +115,7 @@ public class WindowUpdata extends JFrame {
 		// mode下拉列表动作：清除文本域内容
 		comboBoxmode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				infortextArea.setText("");
+
 				infortextField.setText("");
 				infortextField.isFocusable();
 			}
@@ -133,27 +132,24 @@ public class WindowUpdata extends JFrame {
 		JButton updatabutton = new JButton("\u4FEE\u6539\u4FE1\u606F");
 		updatabutton.setBounds(467, 472, 113, 27);
 		contentPane.add(updatabutton);
+
 		
-		JLabel label = new JLabel("\u8D26\u53F7\u540D");
-		label.setBounds(174, 214, 72, 18);
-		contentPane.add(label);
-		
-		JLabel label_1 = new JLabel("\u5BC6\u7801");
-		label_1.setBounds(356, 214, 72, 18);
-		contentPane.add(label_1);
-		
-		JLabel lblNewLabel = new JLabel("\u624B\u673A\u53F7");
-		lblNewLabel.setBounds(508, 214, 72, 18);
-		contentPane.add(lblNewLabel);
+		DefaultTableModel model = new DefaultTableModel();
+		JTable table = new JTable(model);
+		scrollPane.setViewportView(table);
+		contentPane.add(scrollPane);
 
 		checkbutton.addActionListener(new ActionListener() {
 
 			// 查询按钮动作
 			public void actionPerformed(ActionEvent e) {
 
-				infortextArea.setText("");
-
-				String info = infortextField.getText().toString().trim();
+				String info = infortextField.getText().trim();
+				Vector<Vector> row = new Vector<Vector>();
+				Vector<String> columnNames = new Vector<String>();
+				columnNames.add("账号");
+				columnNames.add("密码");
+				columnNames.add("手机号");
 
 				if (comboBoxmode.getSelectedItem().toString().equals("精确")) {
 
@@ -162,9 +158,15 @@ public class WindowUpdata extends JFrame {
 						User user = null;
 
 						if ((user = UserTools.checkUsername(info)) != null) {
-
-							infortextArea
-									.setText(user.getUsername() + "\t" + user.getPassword() + '\t' + user.getPhone());
+							
+							Vector<String> rowData = new Vector<String>();
+							
+							rowData.add(user.getUsername());
+							rowData.add(user.getPassword());
+							rowData.add(user.getPhone());			
+							row.add(rowData);						
+							model.setDataVector(row, columnNames);
+							
 
 						} else {
 							JOptionPane.showMessageDialog(contentPane, "未查询到该用户！");
@@ -174,16 +176,21 @@ public class WindowUpdata extends JFrame {
 
 						User user = null;
 
-						if ((user = UserTools.checkPhone(info)) != null) {
-
-							infortextArea
-									.setText(user.getUsername() + "\t" + user.getPassword() + '\t' + user.getPhone());
+						if ((user = UserTools.checkPhone(info)) != null) {	
+							
+							Vector<String> rowData = new Vector<String>();
+							rowData.add(user.getUsername());
+							rowData.add(user.getPassword());
+							rowData.add(user.getPhone());			
+							row.add(rowData);						
+							model.setDataVector(row, columnNames);
+							
 
 						} else {
 							JOptionPane.showMessageDialog(contentPane, "未查询到该用户！");
 						}
 					}
-				} else {// 模糊查询
+				}else {// 模糊查询
 
 					if (comboBoxItem.getSelectedItem().toString().equals("用户名")) {
 
@@ -191,12 +198,21 @@ public class WindowUpdata extends JFrame {
 						if (array != null) {
 
 							for (User user : array) {
-
-								infortextArea.append("                    "+
-										user.getUsername() + "\t" + user.getPassword() + "\t" + user.getPhone() + '\n');
-								
-							}
-
+							
+								/*
+								 * 
+								 * 注意：每次循环应该重新创建行向量
+								 * 否则数据会直接添加到集合后面，导致只有一个行向量！
+								 * 
+								 * */	
+								Vector<String> rowData = new Vector<String>();
+								rowData.add(user.getUsername());
+								rowData.add(user.getPassword());
+								rowData.add(user.getPhone());
+								row.add(rowData);
+							}		
+							model.setDataVector(row, columnNames);
+							
 						} else {
 
 							JOptionPane.showMessageDialog(contentPane, "未查询到该用户！");
@@ -206,45 +222,25 @@ public class WindowUpdata extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "电话号码不能模糊查询哟，亲~~");
 					}
 				}
-
 			}
 		});
-
 		// 删除用户按钮动作
 		delbutton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (infortextArea.getText().toString().trim().length() == 0) {
-
-					JOptionPane.showMessageDialog(contentPane, "删除前请先进行查询哟，亲~~");
-				} else {
-
-					/*
-					 * 
-					 * 这里调用删除窗口
-					 * 
-					 */
-					/**
-					 * Launch the application.
-					 */
-
-					EventQueue.invokeLater(new Runnable() {
-						public void run() {
-							try {
-								WindowDelAccount frame = new WindowDelAccount();
-								frame.setVisible(true);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowDelAccount frame = new WindowDelAccount();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-					});
-
-					/**
-					 * Create the frame.
-					 */
-				}
+					}
+				});
+				
 			}
 		});
 
@@ -254,35 +250,19 @@ public class WindowUpdata extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (infortextArea.getText().toString().trim().length() == 0) {
-
-					JOptionPane.showMessageDialog(contentPane, "修改信息前请先进行查询哟，亲~~");
-				} else {
-
-					/*
-					 * 
-					 * 这里调用修改用户信息窗口
-					 * 
-					 */
-					/**
-					 * Launch the application.
-					 */
-					EventQueue.invokeLater(new Runnable() {
-						public void run() {
-							try {
-								WindowUpdataAccount frame = new WindowUpdataAccount();
-								frame.setVisible(true);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowUpdataAccount frame = new WindowUpdataAccount();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-					});
-					/**
-					 * Create the frame.
-					 */
-
-				}
+					}
+				});
+				
 			}
+
 		});
 	}
 }

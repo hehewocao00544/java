@@ -32,6 +32,18 @@ public class WindowUpdataAccount extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WindowUpdataAccount frame = new WindowUpdataAccount();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	public WindowUpdataAccount() {
 
 		setTitle("用户信息修改");
@@ -177,6 +189,12 @@ public class WindowUpdataAccount extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				/*
+				 * 
+				 * 
+				 * 缺少对用户名或手机号修改后的查重功能
+				 * 
+				 */
 				if (infotiplabel.getText().equals("✔")) {
 					String n = usernametextField.getText().toString().trim();
 					String p = passwordField.getText().toString().trim();
