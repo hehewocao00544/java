@@ -44,6 +44,7 @@ public class WindowUpdataAccount extends JFrame {
 			}
 		});
 	}
+
 	public WindowUpdataAccount() {
 
 		setTitle("用户信息修改");
@@ -192,7 +193,7 @@ public class WindowUpdataAccount extends JFrame {
 				/*
 				 * 
 				 * 
-				 * 缺少对用户名或手机号修改后的查重功能
+				 * 缺少对用户名或手机号修改后的查重功能 用户名和手机号均为用户的唯一标识
 				 * 
 				 */
 				if (infotiplabel.getText().equals("✔")) {
@@ -221,24 +222,115 @@ public class WindowUpdataAccount extends JFrame {
 						passwordField_1.setText("");
 					} else {
 
+						// 对修改后的信息进行查重
+
+						String info = infotextField.getText().trim();
+
 						if (itemcomboBox.getSelectedItem().toString().equals("用户名")) {
 
-							User u = UserTools.checkUsername(infotextField.getText().trim());
-							UserTools.delAccount(u);
-							UserTools.fileWrite("Users.txt", new User(n, p, t));
-							JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
-							dispose();
-						} else if (itemcomboBox.getSelectedItem().toString().equals("手机号")) {
+							User u = UserTools.checkUsername(info);
 
-							User u = UserTools.checkPhone(infotextField.getText().trim());
-							UserTools.delAccount(u);
-							UserTools.fileWrite("Users.txt", new User(n, p, t));
-							JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
-							dispose();
+							if (!n.equals(u.getUsername())) {//用户名如果更改
+
+								if (UserTools.duplicateCheckingUsername(n)) {
+									JOptionPane.showMessageDialog(contentPane, "该用户名已存在！");
+								}
+								else {//用户名变且没有重复
+									if (!t.equals(u.getPhone())) {//如果电话改变
+										if(UserTools.duplicateCheckingPhone(t)) {
+											JOptionPane.showMessageDialog(contentPane, "该手机号已被绑定过了！");
+										}
+										else {//用户名改变且手机号改变且都不重复
+											UserTools.delAccount(u);
+											UserTools.fileWrite("Users.txt", new User(n, p, t));
+											JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+											dispose();
+										}
+									}else {//用户名改变但手机号不变
+										UserTools.delAccount(u);
+										UserTools.fileWrite("Users.txt", new User(n, p, t));
+										JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+										dispose();
+									}
+								}
+							} 
+							else {//用户名没有更改 判断手机号情况
+								
+								if (!t.equals(u.getPhone())) {//手机更改
+
+									if (UserTools.duplicateCheckingPhone(t)) {
+										JOptionPane.showMessageDialog(contentPane, "该手机号已被绑定过了！");
+									}
+									else {//用户名没变，手机变且没有重复
+										
+												UserTools.delAccount(u);
+												UserTools.fileWrite("Users.txt", new User(n, p, t));
+												JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+												dispose();
+										}
+								}
+								else {//用户名不改变且手机号不变
+											UserTools.delAccount(u);
+											UserTools.fileWrite("Users.txt", new User(n, p, t));
+											JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+											dispose();
+								}	
+							}
 						}
+						else if (itemcomboBox.getSelectedItem().toString().equals("手机号")) {
 
+							User u = UserTools.checkPhone(info);
+
+							if (!n.equals(u.getUsername())) {//用户名如果更改
+
+								if (UserTools.duplicateCheckingUsername(n)) {
+									JOptionPane.showMessageDialog(contentPane, "该用户名已存在！");
+								}
+								else {//用户名变且没有重复
+									if (!t.equals(u.getPhone())) {//如果电话改变
+										if(UserTools.duplicateCheckingPhone(t)) {
+											JOptionPane.showMessageDialog(contentPane, "该手机号已被绑定过了！");
+										}
+										else {//用户名改变且手机号改变且都不重复
+											UserTools.delAccount(u);
+											UserTools.fileWrite("Users.txt", new User(n, p, t));
+											JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+											dispose();
+										}
+									}else {//用户名改变但手机号不变
+										UserTools.delAccount(u);
+										UserTools.fileWrite("Users.txt", new User(n, p, t));
+										JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+										dispose();
+									}
+								}
+							} 
+							else {//用户名没有更改 判断手机号情况
+								
+								if (!t.equals(u.getPhone())) {//手机更改
+
+									if (UserTools.duplicateCheckingPhone(t)) {
+										JOptionPane.showMessageDialog(contentPane, "该手机号已被绑定过了！");
+									}
+									else {//用户名没变，手机变且没有重复
+										
+												UserTools.delAccount(u);
+												UserTools.fileWrite("Users.txt", new User(n, p, t));
+												JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+												dispose();
+										}
+								}
+								else {//用户名不改变且手机号不变
+											UserTools.delAccount(u);
+											UserTools.fileWrite("Users.txt", new User(n, p, t));
+											JOptionPane.showMessageDialog(contentPane, "恭喜您，用户修改成功！");
+											dispose();
+								}	
+							}
+
+						}
 					}
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(contentPane, "该用户不存在，无法进行修改！");
 					usernametextField.setText("");
 					passwordField.setText("");
@@ -253,7 +345,7 @@ public class WindowUpdataAccount extends JFrame {
 		// 取消修改动作
 		cenclebutton.addActionListener(new ActionListener() {
 
-			@Override
+	@Override
 			public void actionPerformed(ActionEvent e) {
 
 				dispose();

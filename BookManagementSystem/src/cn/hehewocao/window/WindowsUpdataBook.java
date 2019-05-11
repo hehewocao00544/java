@@ -158,6 +158,16 @@ public class WindowsUpdataBook extends JFrame {
 				 * 这里调用图书信息修改功能窗口
 				 * 
 				 */
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowUpdataBookinfo frame = new WindowUpdataBookinfo();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 				
 			}
 		});

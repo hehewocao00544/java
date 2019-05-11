@@ -134,6 +134,19 @@ public class UserTools {
 		}
 		return false;
 	}
+	
+	public static boolean duplicateCheckingUsername(String username) {
+
+		ArrayList<User> array = UserTools.fileReader("Users.txt");
+
+		for (User u : array) {
+
+			if (u.getUsername().equals(username)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public static boolean duplicateCheckingPhone(User user) {
 
@@ -142,6 +155,19 @@ public class UserTools {
 		for (User u : array) {
 
 			if (u.getPhone().equals(user.getPhone())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean duplicateCheckingPhone(String phone) {
+
+		ArrayList<User> array = UserTools.fileReader("Users.txt");
+
+		for (User u : array) {
+
+			if (u.getPhone().equals(phone)) {
 				return true;
 			}
 		}

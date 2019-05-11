@@ -114,7 +114,16 @@ public class WindowAdministrator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							WindowBookInfo frame = new WindowBookInfo();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
 

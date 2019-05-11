@@ -5,28 +5,30 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Vector;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import cn.hehewocao.pojo.Book;
 import cn.hehewocao.tool.BookTools;
 import cn.hehewocao.tool.OtherTools;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-public class WindowAddBook extends JFrame {
+public class WindowUpdataBookinfo extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField infotextField;
 	private JTextField idtextField;
 	private JTextField writertextField;
 	private JTextField nametextField;
@@ -44,7 +46,7 @@ public class WindowAddBook extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WindowAddBook frame = new WindowAddBook();
+					WindowUpdataBookinfo frame = new WindowUpdataBookinfo();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,36 +58,44 @@ public class WindowAddBook extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WindowAddBook() {
-		setTitle("图书信息录入");
+	public WindowUpdataBookinfo() {
+		setTitle("图书信息修改");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-
 		setBounds((width - 800) / 2, (height - 600) / 2, 800, 600);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel backgroundLabel = new JLabel(
-				"---------------------------------------------------------------------\u56FE\u4E66\u4FE1\u606F\u6DFB\u52A0\u56FE\u7247\u6446\u653E------");
-		backgroundLabel.setBounds(14, 13, 766, 134);
-		contentPane.add(backgroundLabel);
+		JLabel backgroundlabel = new JLabel("-------------------图书信息修改图片位置-------------------");
+		backgroundlabel.setBounds(239, 29, 416, 54);
+		contentPane.add(backgroundlabel);
 
-		JLabel idlabel = new JLabel("\u56FE\u4E66\u7F16\u53F7\uFF1A");
-		idlabel.setBounds(62, 196, 95, 26);
-		contentPane.add(idlabel);
+		JLabel label_0 = new JLabel("\u8F93\u5165\u56FE\u4E66\u7F16\u53F7\uFF1A");
+		label_0.setBounds(205, 123, 105, 18);
+		contentPane.add(label_0);
 
-		idtextField = new JTextField();
-		idtextField.setBounds(171, 194, 170, 30);
-		contentPane.add(idtextField);
-		idtextField.setColumns(10);
+		infotextField = new JTextField();
 
-		JLabel label = new JLabel("\u56FE\u4E66\u7C7B\u522B\uFF1A");
-		label.setBounds(438, 200, 75, 22);
-		contentPane.add(label);
+		infotextField.setBounds(324, 120, 170, 24);
+		contentPane.add(infotextField);
+		infotextField.setColumns(10);
+
+		JLabel infotipslabel = new JLabel("");
+		infotipslabel.setBounds(508, 123, 95, 21);
+		contentPane.add(infotipslabel);
+
+		JButton canclebutton = new JButton("\u53D6\u6D88");
+		canclebutton.setBounds(144, 497, 113, 27);
+		contentPane.add(canclebutton);
+
+		JButton okbutton = new JButton("确认修改");
+		okbutton.setBounds(519, 497, 113, 27);
+		contentPane.add(okbutton);
 
 		JComboBox typecomboBox = new JComboBox();
 		typecomboBox.setBounds(548, 197, 126, 24);
@@ -170,17 +180,9 @@ public class WindowAddBook extends JFrame {
 		numbertextField.setBounds(536, 417, 170, 30);
 		contentPane.add(numbertextField);
 
-		JButton cenclebutton = new JButton("结束录入");
-		cenclebutton.setBounds(138, 497, 113, 27);
-		contentPane.add(cenclebutton);
-
 		JButton resetbutton = new JButton("\u91CD\u7F6E");
-		resetbutton.setBounds(318, 497, 113, 27);
+		resetbutton.setBounds(324, 497, 113, 27);
 		contentPane.add(resetbutton);
-
-		JButton addbutton = new JButton("\u6DFB\u52A0");
-		addbutton.setBounds(520, 497, 113, 27);
-		contentPane.add(addbutton);
 
 		JLabel label_7 = new JLabel("\u5E74");
 		label_7.setBounds(604, 341, 15, 27);
@@ -203,42 +205,79 @@ public class WindowAddBook extends JFrame {
 		JLabel label_9 = new JLabel("\u65E5");
 		label_9.setBounds(728, 341, 15, 27);
 		contentPane.add(label_9);
-		
+
 		JLabel idtipelabel = new JLabel("");
 		idtipelabel.setBounds(346, 196, 85, 26);
 		contentPane.add(idtipelabel);
 
-		//id查重
-		
-		idtextField.addKeyListener(new KeyAdapter() {
+		JLabel label = new JLabel("图书编号：");
+		label.setBounds(62, 200, 85, 18);
+		contentPane.add(label);
+
+		idtextField = new JTextField();
+		idtextField.setColumns(10);
+		idtextField.setBounds(171, 197, 170, 30);
+		contentPane.add(idtextField);
+
+		JLabel label_10 = new JLabel("图书类型：");
+		label_10.setBounds(438, 203, 85, 18);
+		contentPane.add(label_10);
+
+		// 信息文本框键盘监听动作
+		infotextField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent e) {
-				idtipelabel.setText("");
-				
-				if(BookTools.duplicatechecking(idtextField.getText().trim())) {
-					idtipelabel.setText("编号重复");
-				}else {
-					idtipelabel.setText("✔");
+			public void keyReleased(KeyEvent arg0) {
+
+				infotipslabel.setText("");
+				String info = infotextField.getText().trim();
+				Book book = new Book();
+				if ((book = BookTools.checkBookId(info)) == null) {
+					infotipslabel.setText("该图书不存在！");
+					idtextField.setText("");
+					nametextField.setText("");
+					writertextField.setText("");
+					presstextField.setText("");
+					dateytextField.setText("");
+					datemtextField.setText("");
+					datedtextField.setText("");
+					pricetextField.setText("");
+					numbertextField.setText("");
+				} else {
+					infotipslabel.setText("✔");
+					idtextField.setText(book.getId());
+					nametextField.setText(book.getBookname());
+					writertextField.setText(book.getWriter());
+					typecomboBox.setSelectedItem(book.getType());
+					presstextField.setText(book.getPress());
+					String[] str = book.getDate().split("-");
+					dateytextField.setText(str[0]);
+					datemtextField.setText(str[1]);
+					datedtextField.setText(str[2]);
+					pricetextField.setText(String.valueOf(book.getPrice()));
+					numbertextField.setText(String.valueOf(book.getNumber()));
 				}
+
 			}
 		});
-		
+
 		// 取消按钮动作
-		cenclebutton.addActionListener(new ActionListener() {
+		canclebutton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				dispose();
+
 			}
 		});
-
 		// 重置按钮动作
 		resetbutton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				infotextField.setText("");
+				infotipslabel.setText("");
 				idtextField.setText("");
 				nametextField.setText("");
 				writertextField.setText("");
@@ -248,42 +287,22 @@ public class WindowAddBook extends JFrame {
 				datedtextField.setText("");
 				pricetextField.setText("");
 				numbertextField.setText("");
-				idtipelabel.setText("");
+
 			}
 		});
-
-		// 添加按钮动作
-		addbutton.addActionListener(new ActionListener() {
+		// 确认修改按钮动作
+		okbutton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (idtextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书编号不能为空！");
-				} else if (nametextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书名不能为空！");
-				} else if (writertextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书作者不能为空！");
-				} else if (presstextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书出版社不能为空！");
-				} else if (dateytextField.getText().trim().length() == 0
-						|| datemtextField.getText().trim().length() == 0
-						|| datedtextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书出版日期不能为空！");
-				} else if (pricetextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书单价不能为空！");
-				} else if (numbertextField.getText().trim().length() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "图书库存数量不能为空！");
-				} else if(idtipelabel.getText().trim().equals("✔")){
+				if (infotipslabel.getText().trim().equals("✔")) {
+					
 					String id = idtextField.getText().trim();
 					String name = nametextField.getText().trim();
 					String writer = writertextField.getText().trim();
 					String press = presstextField.getText().trim();
-					String type = typecomboBox.getSelectedItem().toString().trim();
-					int datey = Integer.parseInt(dateytextField.getText().trim());
-
-					String date = dateytextField.getText().trim() + '-' + datemtextField.getText().trim() + '-'
-							+ datedtextField.getText().trim();
+					String date = dateytextField.getText().trim()+"-"+datemtextField.getText().trim()+"-"+datedtextField.getText().trim();
+					String type = typecomboBox.getSelectedItem().toString();
 					float price = -1;
 					try {
 						price = Float.parseFloat(pricetextField.getText().trim());
@@ -296,41 +315,51 @@ public class WindowAddBook extends JFrame {
 					}catch(Exception q) {
 						JOptionPane.showMessageDialog(contentPane, "非法库存数量!");
 					}
-
-					Date datenow = new Date();
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-					String now = format.format(datenow);
-					String[] str = now.split("-");
-
-					if (!OtherTools.isValidDate(date) || datey > Integer.parseInt(str[0])) {
+					
+					if(id.length()==0) {
+						JOptionPane.showMessageDialog(contentPane, "图书编号不能为空!");
+					}else if(name.length()==0) {
+						JOptionPane.showMessageDialog(contentPane, "图书名不能为空!");
+					}else if(writer.length()==0) {
+						JOptionPane.showMessageDialog(contentPane, "图书作者不能为空!");
+					}else if(press.length()==0) {
+						JOptionPane.showMessageDialog(contentPane, "图书出版社不能为空!");
+					}else if(price < 0) {
+						JOptionPane.showMessageDialog(contentPane, "图书价格非法!");
+					}else if(number < 0) {
+						JOptionPane.showMessageDialog(contentPane, "图书库存数量非法!");
+					}else if (!OtherTools.isValidDate(date)) {
 						JOptionPane.showMessageDialog(contentPane, "您输入的日期不合法！");
-					} else if (price < 0) {
-						JOptionPane.showMessageDialog(contentPane, "您输入的图书价格不合法！");
-					} else if (number < 0) {
-						JOptionPane.showMessageDialog(contentPane, "您输入的图书库存数量不合法！");
-					}else {
+					}else if(!infotextField.getText().trim().equals(idtextField.getText())) {
+						if(BookTools.duplicatechecking(idtextField.getText())) {
+							JOptionPane.showMessageDialog(contentPane, "编号重复了，亲~~");
+						}else {
+							BookTools.delBookId(infotextField.getText().trim());
+							Book book = new Book(id,name,writer,type,press,date,price,number);
+							if(BookTools.fileWrite("bookinformation.txt", book)) {
+								JOptionPane.showMessageDialog(contentPane, "恭喜您，图书信息修改成功！");
+							}else {
+								JOptionPane.showMessageDialog(contentPane, "对不起，图书信息修改失败！");
+							}
+							dispose();
+						}
+					}else if(infotextField.getText().trim().equals(idtextField.getText())){
+						
+						BookTools.delBookId(infotextField.getText().trim());
 						Book book = new Book(id,name,writer,type,press,date,price,number);
 						if(BookTools.fileWrite("bookinformation.txt", book)) {
-							JOptionPane.showMessageDialog(contentPane, "恭喜您，图书添加成功！");
-							
-							idtextField.setText("");
-							nametextField.setText("");
-							writertextField.setText("");
-							presstextField.setText("");
-							dateytextField.setText("");
-							datemtextField.setText("");
-							datedtextField.setText("");
-							pricetextField.setText("");
-							numbertextField.setText("");
-							idtipelabel.setText("");
+							JOptionPane.showMessageDialog(contentPane, "恭喜您，图书信息修改成功！");
 						}else {
-							JOptionPane.showMessageDialog(contentPane, "对不起，图书添加失败！");
+							JOptionPane.showMessageDialog(contentPane, "对不起，图书信息修改失败！");
 						}
+						dispose();
 					}
 				}else {
-					JOptionPane.showMessageDialog(contentPane, "编号重复，无法添加！");
+					JOptionPane.showMessageDialog(contentPane, "请输入正确的图书编号！");
 				}
+				
 			}
 		});
-	}
+}
+
 }
