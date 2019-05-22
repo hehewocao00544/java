@@ -30,5 +30,8 @@ public class ServerThread implements Runnable {
 		ServerReciveThread srt = new ServerReciveThread(s);
 		Thread rt = new Thread(srt);
 		rt.start();
+		/*ServerSendThread sst = new ServerSendThread(s);
+		Thread st = new Thread(sst);
+		st.start();*/
 	}
 }

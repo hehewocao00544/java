@@ -9,27 +9,31 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-public class ServerSendThread implements Runnable{
+public class ServerSendThread implements Runnable {
 
 	private Socket socket;
-	
+
 	public ServerSendThread(Socket socket) {
 		this.socket = socket;
 	}
 
 	@Override
 	public void run() {
-		
+
 		Socket s = socket;
 		try {
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
-		BufferedReader br = new BufferedReader(new FileReader("MessageRecord.txt"));
-		String message = null;
-		while((message = br.readLine())!= null) {
-			
-		}
-		
-		}catch(IOException e) {
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+			BufferedReader br = new BufferedReader(new FileReader("MessageRecord.txt"));
+			String message = null;
+			while ((message = br.readLine()) != null) {
+				String[] str = message.split("=");
+				String newMessage = str[0] + "  " + str[1] + "  " + str[2];
+				bw.write(newMessage);
+				bw.flush();
+			}
+			br.close();
+			JOptionPane.showMessageDialog(null, "已启动服务器发送线程！");
+		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "服务器发送数据失败！");
 		}
 	}
