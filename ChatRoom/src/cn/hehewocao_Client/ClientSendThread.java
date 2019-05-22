@@ -31,7 +31,7 @@ public class ClientSendThread implements Runnable {
 				if(str.equals("OVER")) {
 					break;
 				}
-				bw.write(str);
+				bw.write( ClientStart.userName + "说：" + str);
 				bw.newLine();
 				bw.flush();
 			}

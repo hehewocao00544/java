@@ -2,14 +2,15 @@ package cn.hehewocao_Server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerThread implements Runnable {
 
 	private static Socket socket;
 	private String username;
-
 	public ServerThread(Socket socket) {
 		this.socket = socket;
+		
 	}
 
 	@Override
@@ -25,13 +26,10 @@ public class ServerThread implements Runnable {
 	}
 
 	public static void start() throws IOException {
-
 		Socket s = socket;
 		ServerReciveThread srt = new ServerReciveThread(s);
 		Thread rt = new Thread(srt);
 		rt.start();
-		/*ServerSendThread sst = new ServerSendThread(s);
-		Thread st = new Thread(sst);
-		st.start();*/
+		
 	}
 }

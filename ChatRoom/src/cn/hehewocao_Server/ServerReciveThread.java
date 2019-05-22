@@ -11,6 +11,8 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import cn.hehewocao_ServerTools.ServerTools;
+
 public class ServerReciveThread implements Runnable {
 
 	private Socket socket;
@@ -24,23 +26,18 @@ public class ServerReciveThread implements Runnable {
 
 		Socket s = socket;
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));	
 			String str = null;
 			while ((str = br.readLine())!=null) {
 				String IP = s.getInetAddress().getHostAddress();
 				str = IP + "=" + str;
 				writerFile(str);
 				System.out.println("收到客户端数据：" + str);
-				
-				//开启服务器发送线程
-				ServerSendThread sst = new ServerSendThread(s);
-				Thread st = new Thread(sst);
-				st.start();
+				ServerTools.ServerSend(ServerStart.arraySocket);
 			}
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "接收数据失败！");
 		}
-
 	}
 
 	public boolean writerFile(String str) {
