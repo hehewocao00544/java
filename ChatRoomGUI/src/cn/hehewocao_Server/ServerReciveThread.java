@@ -29,6 +29,9 @@ public class ServerReciveThread implements Runnable {
 
 		Socket s = socket;
 		try {
+			
+			
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			String ns = ServerAcceptThread.i + "=" + br.readLine();
 			ServerAcceptThread.arrayUser.add(ns);
@@ -43,7 +46,6 @@ public class ServerReciveThread implements Runnable {
 			while ((Messagestr = br.readLine()) != null) {
 				String[] close = Messagestr.split("=");
 				if (close[1].equals("Socket is closed!")) {
-
 					ServerAcceptThread.arraySocket.remove(s);
 					ListIterator<String> lit = ServerAcceptThread.arrayUser.listIterator();
 					while (lit.hasNext()) {
@@ -74,7 +76,8 @@ public class ServerReciveThread implements Runnable {
 				ServerTools.ServerSendMessage(ServerAcceptThread.arraySocket);
 			}
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "接收数据失败！");
+			//JOptionPane.showMessageDialog(null, "接收客户端数据失败！");
+			e.printStackTrace();
 		}
 	}
 
