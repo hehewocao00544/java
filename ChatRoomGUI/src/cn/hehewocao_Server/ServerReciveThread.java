@@ -41,15 +41,24 @@ public class ServerReciveThread implements Runnable {
 
 			String Messagestr = null;
 			while ((Messagestr = br.readLine()) != null) {
+				String[] close = Messagestr.split("=");
+				if (close[1].equals("Socket is closed!")) {
 
-				if(Messagestr.equals("Socket is closed!")) {
 					ServerAcceptThread.arraySocket.remove(s);
+					ListIterator<String> lit = ServerAcceptThread.arrayUser.listIterator();
+					while (lit.hasNext()) {
+						String[] userinfo = lit.next().split("=");
+						if (userinfo[1].equals(close[0])) {
+							lit.remove();
+						}
+					}
+
 					UserThread ut1 = new UserThread(ServerAcceptThread.arraySocket);
 					Thread t1 = new Thread(ut1);
 					t1.start();
 					return;
 				}
-				
+
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 				String time = df.format(new Date());
 				String IP = s.getInetAddress().getHostAddress();

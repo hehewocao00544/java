@@ -114,8 +114,7 @@ public class WindowClientChatRoom extends JFrame {
 				super.windowClosing(e);
 				
 				try {
-					//bw.newLine();
-					bw.write("Socket is closed!");
+					bw.write(WindowClient.name + "=Socket is closed!");
 					bw.flush();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
