@@ -20,6 +20,8 @@ public class ClientReciveThread implements Runnable {
 
 	public void run() {
 		try {
+			
+			//接收服务器的消息记录
 			ServerSocket ss = new ServerSocket(5555);
 			while (true) {
 				Socket s = ss.accept();
@@ -28,8 +30,6 @@ public class ClientReciveThread implements Runnable {
 				String allMessage = null;
 				while ((message = br.readLine()) != null) {
 					System.out.println(message);
-					
-					
 					if(allMessage == null) {
 						allMessage = message + "\n";
 					}else {
@@ -38,6 +38,15 @@ public class ClientReciveThread implements Runnable {
 					WindowClientChatRoom.infotextArea.setText(allMessage);
 				}
 			}
+			
+			//接收服务器用户连接信息
+			
+			
+			
+			
+			
+			
+			
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "该程序不支持多开鸭~");
 			System.exit(0);

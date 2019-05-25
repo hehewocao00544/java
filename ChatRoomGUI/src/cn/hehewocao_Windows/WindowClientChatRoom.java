@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
@@ -22,9 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
+import cn.hehewocao_Client.ClientReciveLinkInfoThread;
 import cn.hehewocao_Client.ClientReciveThread;
-import cn.hehewocao_Client.ClientSendThread;
 
 public class WindowClientChatRoom extends JFrame {
 
@@ -34,7 +33,7 @@ public class WindowClientChatRoom extends JFrame {
 	public static JTextArea infotextArea;
 	public static JTextArea inputtextArea;
 	public static BufferedWriter bw;
-
+	public static DefaultTableModel model;
 	/**
 	 * Launch the application.
 	 */
@@ -68,7 +67,7 @@ public class WindowClientChatRoom extends JFrame {
 		contentPane.setLayout(null);
 
 		infotextArea = new JTextArea();
-		infotextArea.setBounds(45, 71, 524, 283);
+		infotextArea.setBounds(45, 71, 483, 283);
 		contentPane.add(infotextArea);
 
 		JLabel label = new JLabel("消息记录：");
@@ -80,27 +79,25 @@ public class WindowClientChatRoom extends JFrame {
 		contentPane.add(label_1);
 
 		inputtextArea = new JTextArea();
-		inputtextArea.setBounds(45, 394, 524, 107);
+		inputtextArea.setBounds(45, 394, 490, 107);
 		contentPane.add(inputtextArea);
 
 		JButton clearbutton = new JButton("清除");
-		clearbutton.setBounds(636, 405, 113, 27);
+		clearbutton.setBounds(621, 385, 138, 41);
 		contentPane.add(clearbutton);
 
 		JButton sendbutton = new JButton("发送");
-		sendbutton.setBounds(636, 462, 113, 27);
+		sendbutton.setBounds(621, 458, 138, 43);
 		contentPane.add(sendbutton);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(611, 72, 175, 282);
-		contentPane.add(scrollPane);
-
-		friendtable = new JTable();
+		scrollPane.setBounds(560, 72, 226, 282);
+		model = new DefaultTableModel();
+		friendtable = new JTable(model);
 		scrollPane.setViewportView(friendtable);
-
-		
-
+		contentPane.add(scrollPane);
 		Socket s = WindowClient.s;
+		
 		try {
 			bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 			bw.write(WindowClient.name + "=" + WindowClient.sex);
@@ -110,24 +107,32 @@ public class WindowClientChatRoom extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "用户信息发送失败！");
 		}
 		
-		addWindowListener(new WindowAdapter() {
-
+		addWindowListener(new WindowAdapter()  {
+			@Override
 			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
 				super.windowClosing(e);
+				
 				try {
+					//bw.newLine();
 					bw.write("Socket is closed!");
 					bw.flush();
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(contentPane, "客户端关闭标志发送失败！");
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "服务器已关闭！");
 				}
 			}
 		});
-
 		// 开启客户端接收进程
 		ClientReciveThread crt = new ClientReciveThread(s);
 		Thread rt = new Thread(crt);
 		rt.start();
-
+		
+		//开启客户端接收连接信息线程
+		ClientReciveLinkInfoThread crlit = new ClientReciveLinkInfoThread();
+		Thread rlit =new Thread(crlit);
+		rlit.start();
+		
 		// 发送按钮动作
 		sendbutton.addActionListener(new ActionListener() {
 
@@ -142,7 +147,8 @@ public class WindowClientChatRoom extends JFrame {
 					bw.newLine();
 					bw.flush();
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "客户端发送数据失败！");
+					JOptionPane.showMessageDialog(null, "与服务器的连接断开，您已经被强制下线！");
+					System.exit(0);
 				}
 				inputtextArea.setText("");
 			}
@@ -153,7 +159,7 @@ public class WindowClientChatRoom extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputtextArea.setText("");
+				inputtextArea.setText("");				
 			}
 		});
 	}

@@ -4,9 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.net.Socket;
 
 import javax.swing.JButton;
@@ -52,6 +49,7 @@ public class WindowClient extends JFrame {
 	public WindowClient() {
 		setTitle("加入聊天室");
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
@@ -107,16 +105,6 @@ public class WindowClient extends JFrame {
 		sexcomboBox.addItem("男");
 		sexcomboBox.addItem("女");
 
-		addWindowListener(new WindowAdapter() {
-			
-			public void windowClosing(WindowEvent e) {
-				super.windowClosing(e);
-				
-				
-			}
-		});
-		
-		
 		// 加入聊天室按钮动作
 		yesButton.addActionListener(new ActionListener() {
 

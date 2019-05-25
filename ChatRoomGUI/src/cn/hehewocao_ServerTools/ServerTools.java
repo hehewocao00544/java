@@ -85,7 +85,7 @@ public class ServerTools {
 					bw.newLine();
 					bw.flush();
 				}
-				
+				s.close();
 			}
 
 		} catch (IOException e) {

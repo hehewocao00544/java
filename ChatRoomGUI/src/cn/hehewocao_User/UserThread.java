@@ -46,9 +46,8 @@ public class UserThread implements Runnable{
 			row.add(rowData);						
 			WindowServer.model.setDataVector(row, columnNames);
 			i++;
-			
 		}
 	
-		ServerTools.ServerSendLink(ServerAcceptThread.arraySocket);
+		ServerTools.ServerSendLink(arraySocket);
 	}
 }
