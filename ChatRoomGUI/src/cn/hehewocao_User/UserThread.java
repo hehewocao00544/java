@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import java.util.Vector;
 
 import cn.hehewocao_Server.ServerAcceptThread;
+import cn.hehewocao_ServerTools.ServerTools;
 import cn.hehewocao_Windows.WindowServer;
 
 public class UserThread implements Runnable{
@@ -24,6 +25,7 @@ public class UserThread implements Runnable{
 
 	public static void countUser() {
 		
+		WindowServer.model.setRowCount(0);
 		Vector<Vector> row = new Vector<Vector>();
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("连接编号");
@@ -32,17 +34,11 @@ public class UserThread implements Runnable{
 		columnNames.add("性别");	
 		System.out.println("共有" + arraySocket.size()  + "个用户连接！");
 		ListIterator<Socket> it = arraySocket.listIterator();
-		
-		
-		
 		int i = 0;
 		while(it.hasNext()) {
-			Socket socket = it.next();
-			//System.out.println(socket.getInetAddress().getHostAddress());
-			Vector<String> rowData = new Vector<String>();
-			
+			Socket socket = it.next();	
+			Vector<String> rowData = new Vector<String>();		
 			String[] userinfo = ServerAcceptThread.arrayUser.get(i).split("=");
-			System.out.println(ServerAcceptThread.arrayUser.size());
 			rowData.add(userinfo[0]);
 			rowData.add(socket.getInetAddress().getHostAddress());
 			rowData.add(userinfo[1]);
@@ -50,7 +46,9 @@ public class UserThread implements Runnable{
 			row.add(rowData);						
 			WindowServer.model.setDataVector(row, columnNames);
 			i++;
+			
 		}
-		
+	
+		ServerTools.ServerSendLink(ServerAcceptThread.arraySocket);
 	}
 }

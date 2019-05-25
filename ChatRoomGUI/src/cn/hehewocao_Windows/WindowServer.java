@@ -32,7 +32,7 @@ public class WindowServer extends JFrame {
 	
 	public static DefaultTableModel model;
 	public static JTextArea infortextArea;
-	
+	public static JTable table;
 	/**
 	 * Launch the application.
 	 */
@@ -94,7 +94,7 @@ public class WindowServer extends JFrame {
 		scrollPane.setBounds(472, 102, 394, 390);
 		
 		model = new DefaultTableModel();
-		JTable table = new JTable(model);
+		table = new JTable(model);
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
 		// 开启服务器按钮动作

@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ListIterator;
 
 import javax.swing.JOptionPane;
 
@@ -41,19 +42,26 @@ public class ServerReciveThread implements Runnable {
 			String Messagestr = null;
 			while ((Messagestr = br.readLine()) != null) {
 
+				if(Messagestr.equals("Socket is closed!")) {
+					ServerAcceptThread.arraySocket.remove(s);
+					UserThread ut1 = new UserThread(ServerAcceptThread.arraySocket);
+					Thread t1 = new Thread(ut1);
+					t1.start();
+					return;
+				}
+				
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 				String time = df.format(new Date());
 				String IP = s.getInetAddress().getHostAddress();
 				String displayMessagestr = time + "  " + Messagestr;
-				
-				Messagestr = time  + "=" + IP + "=" + Messagestr;
+
+				Messagestr = time + "=" + IP + "=" + Messagestr;
 				writerFile(Messagestr);
-		
+
 				System.out.println("收到客户端数据：" + Messagestr);
 
 				WindowServer.infortextArea.append(displayMessagestr);
 				WindowServer.infortextArea.append("\n");
-
 				ServerTools.ServerSendMessage(ServerAcceptThread.arraySocket);
 			}
 		} catch (IOException e) {

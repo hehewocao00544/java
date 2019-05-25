@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class WindowClientChatRoom extends JFrame {
 	public static JTextArea infotextArea;
 	public static JTextArea inputtextArea;
 	public static BufferedWriter bw;
+
 	/**
 	 * Launch the application.
 	 */
@@ -95,6 +98,8 @@ public class WindowClientChatRoom extends JFrame {
 		friendtable = new JTable();
 		scrollPane.setViewportView(friendtable);
 
+		
+
 		Socket s = WindowClient.s;
 		try {
 			bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
@@ -104,6 +109,19 @@ public class WindowClientChatRoom extends JFrame {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(contentPane, "用户信息发送失败！");
 		}
+		
+		addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				try {
+					bw.write("Socket is closed!");
+					bw.flush();
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(contentPane, "客户端关闭标志发送失败！");
+				}
+			}
+		});
 
 		// 开启客户端接收进程
 		ClientReciveThread crt = new ClientReciveThread(s);
@@ -135,7 +153,7 @@ public class WindowClientChatRoom extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputtextArea.setText("");				
+				inputtextArea.setText("");
 			}
 		});
 	}

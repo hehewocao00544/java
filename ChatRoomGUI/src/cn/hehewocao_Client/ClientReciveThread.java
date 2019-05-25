@@ -29,8 +29,7 @@ public class ClientReciveThread implements Runnable {
 				while ((message = br.readLine()) != null) {
 					System.out.println(message);
 					
-					/*WindowClientChatRoom.infotextArea.append(message);
-					WindowClientChatRoom.infotextArea.append("\n");*/
+					
 					if(allMessage == null) {
 						allMessage = message + "\n";
 					}else {
