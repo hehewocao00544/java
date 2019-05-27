@@ -1,13 +1,16 @@
 package cn.hehewocao_Client;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import cn.hehewocao_Windows.WindowClient;
 import cn.hehewocao_Windows.WindowClientChatRoom;
 
 public class ClientReciveThread implements Runnable {
@@ -36,18 +39,20 @@ public class ClientReciveThread implements Runnable {
 						allMessage = allMessage + message + "\n";
 					}
 					WindowClientChatRoom.infotextArea.setText(allMessage);
+					//设置光标在末尾
+					WindowClientChatRoom.infotextArea.setCaretPosition(WindowClientChatRoom.infotextArea.getText().length());
 				}
 			}
 			
-			//接收服务器用户连接信息
-			
-			
-			
-			
-			
-			
-			
 		} catch (IOException e) {
+			try {
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+				bw.write(WindowClient.name + "=Socket is closed!");
+				bw.flush();
+				socket.close();
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(null, "服务器已关闭！");
+			}
 			JOptionPane.showMessageDialog(null, "该程序不支持多开鸭~");
 			System.exit(0);
 		}

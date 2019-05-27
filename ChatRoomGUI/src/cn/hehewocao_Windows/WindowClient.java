@@ -134,10 +134,8 @@ public class WindowClient extends JFrame {
 					try {
 						//创建与服务器的连接
 						s = new Socket(IP, PORT);
-						
-						
 						dispose();
-						JOptionPane.showMessageDialog(contentPane, "登陆成功！");
+						//JOptionPane.showMessageDialog(contentPane, "登陆成功！");
 						// 这里调用客户端聊天室窗口
 
 						/**

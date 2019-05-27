@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import cn.hehewocao_ServerTools.ServerTools;
+
 public class ServerThread implements Runnable {
 
 	private static Socket socket;

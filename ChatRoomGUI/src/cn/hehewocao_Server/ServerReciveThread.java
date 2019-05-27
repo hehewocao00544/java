@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import cn.hehewocao_ServerTools.ServerTools;
 import cn.hehewocao_User.UserThread;
+import cn.hehewocao_Windows.WindowClientChatRoom;
 import cn.hehewocao_Windows.WindowServer;
 
 public class ServerReciveThread implements Runnable {
@@ -29,14 +30,13 @@ public class ServerReciveThread implements Runnable {
 
 		Socket s = socket;
 		try {
-			
-			
-			
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			String ns = ServerAcceptThread.i + "=" + br.readLine();
 			ServerAcceptThread.arrayUser.add(ns);
 			ServerAcceptThread.i++;
-
+			
+			ServerTools.ServerSendMessage(ServerAcceptThread.arraySocket);
+			
 			// 开启用户连接线程
 			UserThread ut = new UserThread(ServerAcceptThread.arraySocket);
 			Thread t = new Thread(ut);
@@ -45,7 +45,9 @@ public class ServerReciveThread implements Runnable {
 			String Messagestr = null;
 			while ((Messagestr = br.readLine()) != null) {
 				String[] close = Messagestr.split("=");
-				if (close[1].equals("Socket is closed!")) {
+				//多增加一个判断，防止下标越界异常
+				if (close.length!=1 && close[1].equals("Socket is closed!")) {
+
 					ServerAcceptThread.arraySocket.remove(s);
 					ListIterator<String> lit = ServerAcceptThread.arrayUser.listIterator();
 					while (lit.hasNext()) {
@@ -60,7 +62,6 @@ public class ServerReciveThread implements Runnable {
 					t1.start();
 					return;
 				}
-
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 				String time = df.format(new Date());
 				String IP = s.getInetAddress().getHostAddress();
@@ -73,11 +74,12 @@ public class ServerReciveThread implements Runnable {
 
 				WindowServer.infortextArea.append(displayMessagestr);
 				WindowServer.infortextArea.append("\n");
+				//设置光标在末尾
+				WindowServer.infortextArea.setCaretPosition(WindowServer.infortextArea.getText().length());
 				ServerTools.ServerSendMessage(ServerAcceptThread.arraySocket);
 			}
 		} catch (IOException e) {
-			//JOptionPane.showMessageDialog(null, "接收客户端数据失败！");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "接收数据失败！");
 		}
 	}
 

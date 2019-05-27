@@ -3,6 +3,7 @@ package cn.hehewocao_ServerTools;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
@@ -95,4 +96,17 @@ public class ServerTools {
 
 	}
 
+	public static boolean writerFile() {
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("MessageRecord.txt"));
+			bw.write("");
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

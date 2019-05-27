@@ -34,6 +34,7 @@ public class WindowClientChatRoom extends JFrame {
 	public static JTextArea inputtextArea;
 	public static BufferedWriter bw;
 	public static DefaultTableModel model;
+
 	/**
 	 * Launch the application.
 	 */
@@ -68,7 +69,11 @@ public class WindowClientChatRoom extends JFrame {
 
 		infotextArea = new JTextArea();
 		infotextArea.setBounds(45, 71, 483, 283);
-		contentPane.add(infotextArea);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(45, 71, 483, 283);
+		contentPane.add(scrollPane_1);
+		scrollPane_1.setViewportView(infotextArea);
+		//contentPane.add(infotextArea);
 
 		JLabel label = new JLabel("消息记录：");
 		label.setBounds(45, 27, 85, 18);
@@ -80,7 +85,11 @@ public class WindowClientChatRoom extends JFrame {
 
 		inputtextArea = new JTextArea();
 		inputtextArea.setBounds(45, 394, 490, 107);
-		contentPane.add(inputtextArea);
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(45, 394, 490, 107);
+		contentPane.add(scrollPane_2);
+		scrollPane_2.setViewportView(inputtextArea);
+		//contentPane.add(inputtextArea);
 
 		JButton clearbutton = new JButton("清除");
 		clearbutton.setBounds(621, 385, 138, 41);
@@ -97,7 +106,7 @@ public class WindowClientChatRoom extends JFrame {
 		scrollPane.setViewportView(friendtable);
 		contentPane.add(scrollPane);
 		Socket s = WindowClient.s;
-		
+
 		try {
 			bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 			bw.write(WindowClient.name + "=" + WindowClient.sex);
@@ -106,13 +115,13 @@ public class WindowClientChatRoom extends JFrame {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(contentPane, "用户信息发送失败！");
 		}
-		
-		addWindowListener(new WindowAdapter()  {
+
+		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
 				super.windowClosing(e);
-				
+
 				try {
 					bw.write(WindowClient.name + "=Socket is closed!");
 					bw.flush();
@@ -127,12 +136,12 @@ public class WindowClientChatRoom extends JFrame {
 		ClientReciveThread crt = new ClientReciveThread(s);
 		Thread rt = new Thread(crt);
 		rt.start();
-		
-		//开启客户端接收连接信息线程
+
+		// 开启客户端接收连接信息线程
 		ClientReciveLinkInfoThread crlit = new ClientReciveLinkInfoThread();
-		Thread rlit =new Thread(crlit);
+		Thread rlit = new Thread(crlit);
 		rlit.start();
-		
+
 		// 发送按钮动作
 		sendbutton.addActionListener(new ActionListener() {
 
@@ -159,7 +168,7 @@ public class WindowClientChatRoom extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputtextArea.setText("");				
+				inputtextArea.setText("");
 			}
 		});
 	}

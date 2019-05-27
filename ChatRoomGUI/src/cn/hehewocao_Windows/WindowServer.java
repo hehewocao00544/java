@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -19,6 +22,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import cn.hehewocao_Server.ServerAcceptThread;
+import cn.hehewocao_ServerTools.ServerTools;
+
 import java.awt.Color;
 import javax.swing.JScrollPane;
 
@@ -55,7 +60,7 @@ public class WindowServer extends JFrame {
 	public WindowServer() {
 		setTitle("聊天室服务器");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
@@ -67,7 +72,11 @@ public class WindowServer extends JFrame {
 
 		infortextArea = new JTextArea();
 		infortextArea.setBounds(32, 102, 406, 390);
-		contentPane.add(infortextArea);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(32, 102, 406, 390);
+		contentPane.add(scrollPane_1);
+		scrollPane_1.setViewportView(infortextArea);
+		//contentPane.add(infortextArea);
 
 		JLabel label = new JLabel("聊天信息");
 		label.setBounds(195, 78, 72, 18);
@@ -97,6 +106,17 @@ public class WindowServer extends JFrame {
 		table = new JTable(model);
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				ServerTools.writerFile();
+			}
+		});
+		
+		
+		
 		// 开启服务器按钮动作
 		startbutton.addActionListener(new ActionListener() {
 
@@ -127,14 +147,7 @@ public class WindowServer extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				/*stateinfolabel.setText("服务器已关闭！");
-				try {
-					ss.close();
-				} catch (IOException e1) {
-					
-					JOptionPane.showMessageDialog(null, "服务器关闭失败！");
-				}*/
+				ServerTools.writerFile();
 				System.exit(0);
 			}
 		});
