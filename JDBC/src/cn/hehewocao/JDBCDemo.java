@@ -14,12 +14,12 @@ public class JDBCDemo {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		System.out.println("注册成功!");
 		//2.获得与数据库的连接
-		/*String url = "jdbc:mysql://localhost:3306/lirui?serverTimezone=GMT%2B8";
+		String url = "jdbc:mysql://localhost:3306/lirui?serverTimezone=GMT%2B8";
 		String username = "root";
-		String password = "root";*/
-		String url = "jdbc:mysql://192.168.1.242:3306/lirui?serverTimezone=GMT%2B8";
+		String password = "root";
+		/*String url = "jdbc:mysql://192.168.1.242:3306/lirui?serverTimezone=GMT%2B8";
 		String username = "public";
-		String password = "12345678";
+		String password = "12345678";*/
 		
 		Connection con = DriverManager.getConnection(url, username, password);
 		//3.获取SQL语句的执行平台
